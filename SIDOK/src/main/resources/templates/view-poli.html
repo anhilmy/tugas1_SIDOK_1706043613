@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <object th:replace="fragment :: header"></object>
+    <object th:include="fragment :: css" th:remove="tag"></object>
+    <object th:include="fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+    <nav th:replace="fragment :: navbar"></nav>
+    <h2 class="text-center">Sistem Informasi Dokter</h2>
+    <div class="card container-fluid" style="max-width: 700px; margin-top: 40px;">
+        <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
+        <p class="card-header bg-dark text-light" th:text="|Daftar Dokter yang Bertugas di ${poli.nama}|"></p>
+
+        <div class="table-responsive container-fluid w-50" style="min-width: 700px;">
+            <table class="table" th:object="${poli}">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Dokter</th>
+                        <th>Spesialisasi</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="dokter, iteration : ${listDokter}">
+                        <td th:text="${iteration.count}"></td>
+                        <td><a th:text="${dokter.nama}" th:href="@{~/dokter?nik={nik}(nik=${dokter.nik})}"></a></td>
+                        <td>
+                            <ul th:each="spDok: ${dokter.listSpesialisasi}">
+                                <li th:text="${spDok.spesialisasiModel.nama}"></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+                
+            </div>
+        </div>
+        <object th:replace="fragment :: footer"></object>
+</body>

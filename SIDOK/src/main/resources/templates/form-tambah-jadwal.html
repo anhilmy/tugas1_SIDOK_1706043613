@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <object th:replace="fragment :: header"></object>
+    <object th:include="fragment :: css" th:remove="tag"></object>
+    <object th:include="fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+    <nav th:replace="fragment :: navbar"></nav>
+    <div class="container-fluid">
+        <h3 class="text-center" style="margin-top:20px">Tambah Dokter</h3>
+        <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
+        <form th:action="@{/jadwal/tambah/{nip}(nip=${jadwal.dokterModel.nip})}" th:object="${jadwal}" method="POST">
+            <input type="hidden" th:field="*{id}"></input>
+            
+            <div class="container-fluid" style="max-width: 800px;">
+                <div class="form-group">
+                    <label for="nama">Dokter</label>
+                    <input type="text" class="form-control" th:field="*{dokterModel.nama}" disabled />
+                </div>
+
+                <div class="form-group">
+                    <label for="poliModel">Poli</label>
+                    <select class="form-control" th:field="*{poliModel}">
+                        <option th:each="poli, iter : ${listPoli}" th:value="${poli.id}" th:text="${poli.nama}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="hari">Hari</label>
+                    <select class="form-control" th:field="*{hari}">
+                        <option th:each="hari, iter : ${listHari}" th:value="${hari}" th:text="${hari}"></option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" type="submit" name="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="table-responsive container-fluid w-50" style="min-width: 700px; margin-top: 15px;">
+            <table class="table">
+                <p class="card-header bg-dark text-light">Daftar Poli</p>
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Hari</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="jadwal, iteration : ${dokter.listJadwal}">
+                    <td th:text="${iteration.count}"></td>
+                    <td th:text="${jadwal.poliModel.nama}"></td>
+                    <td th:text="${jadwal.hari}"></td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+            
+        </div>
+    </div>
+    <object th:replace="fragment :: footer"></object>
+</body>

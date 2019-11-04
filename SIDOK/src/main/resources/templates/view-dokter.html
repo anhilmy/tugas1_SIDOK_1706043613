@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <object th:replace="fragment :: header"></object>
+    <object th:include="fragment :: css" th:remove="tag"></object>
+    <object th:include="fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+    <nav th:replace="fragment :: navbar"></nav>
+    <div class="card container-fluid" style="max-width: 500px; margin-top: 40px;">
+            <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
+        <h2 class="card-header text-center">Detail Dokter</h2>        
+        <div th:object="${dokter}" class="card-body">
+                <p th:text="|Nama: *{nama}|"></p>
+                <p th:text="|NIP:  *{nip}|"></p>
+                <p th:text="|NIK: *{nik}|"></p>
+                <p th:text="|Tempat Lahir: *{tempatLahir}|"></p>
+                <p th:text="|Tanggal Lahir: ${#dates.format(dokter.tanggalLahir, 'yyyy-MM-dd')}|"></p>
+                <p th:text="|Jenis Kelamin: ${__*{jenisKelamin}__ == 1? 'Laki - Laki' : 'Perempuan' }|"></p>
+                <div>
+                    <p th:text="|Spesialisasi:|"></p>
+                    <ul th:each="spesialisasi : *{listSpesialisasi}">
+                        <li th:text="${spesialisasi.SpesialisasiModel.nama  }"></li>
+                    </ul>
+                </div>
+
+                <div style="float:right">
+                        <a th:href="@{/dokter/update/{id}(id=*{id})}" class="btn btn-sm btn-dark">Ubah</a>
+                        <form style="display: inline" th:action="@{/dokter/delete/{id}(id=*{id})}" method="post">
+                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                        </form>
+                    </div>
+    </div>
+    <object th:replace="fragment :: footer"></object>
+</body>

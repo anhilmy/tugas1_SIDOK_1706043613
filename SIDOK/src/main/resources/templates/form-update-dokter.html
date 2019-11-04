@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <object th:replace="fragment :: header"></object>
+    <object th:include="fragment :: css" th:remove="tag"></object>
+    <object th:include="fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+    <nav th:replace="fragment :: navbar"></nav>
+    <div class="container-fluid">
+        <h3 class="text-center" style="margin-top:20px">Ubah Dokter</h3>
+        <form th:action="@{/dokter/update/{id}(id=${dokter.id})}" th:object="${dokter}" method="POST">
+            <input type="hidden" th:field="*{id}"></input>
+            <input type="hidden" th:field="*{listSpesialisasi}"></input>
+
+
+            <div class="container-fluid" style="max-width: 800px;">
+                <div class="form-group">
+                    <label for="nama">Nama</label>
+                    <input type="text" class="form-control" th:field="*{nama}" placeholder="Masukkan nama dokter" />
+                </div>
+                <div class="form-group">
+                    <label for="nik">NIK</label>
+                    <input type="text" class="form-control " th:field="*{nik}" placeholder="Masukkan nik dokter" disabled/>
+                </div>
+                <div class="form-group">
+                    <label for="tanggalLahir">Tanggal Lahir</label>
+                    <input type="date" class="form-control" th:field="*{tanggalLahir}"
+                        placeholder="Masukkan tanggal lahir" />
+                </div>
+
+                <div class="form-group">
+                    <label for="tempatLahir">Tempat Lahir</label>
+                    <input type="text" class="form-control" th:field="*{tempatLahir}"
+                        placeholder="Masukkan tempat lahir" />
+                </div>
+
+                <div class="form-group">
+                    <label for="jenisKelamin">Jenis Kelamin</label>
+                    <select class="form-control" th:field="*{jenisKelamin}">
+                        <option th:value="1" th:text="'Laki - Laki'"></option>
+                        <option th:value="2" th:text="Perempuan"></option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" type="submit" name="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+    <object th:replace="fragment :: footer"></object>
+</body>

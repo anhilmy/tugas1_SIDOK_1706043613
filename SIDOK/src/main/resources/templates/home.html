@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <object th:replace="fragment :: header"></object>
+    <object th:include="fragment :: css" th:remove="tag"></object>
+    <object th:include="fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+    <nav th:replace="fragment :: navbar"></nav>
+    <div class="container-fluid">
+    <h1 class="text-center">Sistem Informasi Dokter</h1>
+    <div class="table-responsive">
+            <table class="table">
+                <p class="card-header bg-dark text-light">Daftar Dokter</p>
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>NIP</th>
+                    <th>NIK</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Spesialisasi</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="dokter, iteration : ${DokterList}">
+                    <td th:text="${iteration.count}"></td>
+                    <td><a th:text="${dokter.nama}" th:href="@{dokter?nik={nik}(nik=${dokter.nik})}"></a></td>
+                    <td th:text="${dokter.nip}"></td>
+                    <td th:text="${dokter.nik}"></td>
+                    <td th:text="${dokter.jenisKelamin == 1 ? 'Laki - Laki' : 'Perempuan'}"></td>
+                    <td>
+                        <p th:if="${dokter.listSpesialisasi.isEmpty()}">-</p>
+                        <div th:each="spesialisasi : ${dokter.listSpesialisasi}">
+                            <p th:text="${spesialisasi.spesialisasiModel.nama}"></p>
+                        </div>
+                    </td>
+                    <td>
+                        <a th:href="@{jadwal/tambah/{nipDokter}(nipDokter=${dokter.nip})}" class="btn btn-sm btn-primary">Tambah Jadwal</a>
+                        <a th:href="@{dokter/update/{id}(id=${dokter.id})}" class="btn btn-sm btn-dark">Ubah</a>
+                        <form th:action="@{dokter/delete/{id}(id=${dokter.id})}" method="post">
+                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                        </form>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+            <a style="float: right" th:href="@{dokter/tambah}" class="btn btn-sm btn-dark mr-5">Tambah Dokter</a>
+        </div>
+
+    
+
+    </div>
+
+    <object th:replace="fragment :: footer"></object>
+</body>

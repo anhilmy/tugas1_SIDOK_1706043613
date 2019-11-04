@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <object th:replace="fragment :: header"></object>
+    <object th:include="fragment :: css" th:remove="tag"></object>
+    <object th:include="fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+    <nav th:replace="fragment :: navbar"></nav>
+    <h1 class="text-center">Sistem Informasi Dokter</h1>
+    <div class="table-responsive container-fluid w-50" style="min-width: 700px;">
+            <table class="table">
+                <p class="card-header bg-dark text-light">Daftar Poli</p>
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Lokasi</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="poli, iteration : ${listPoli}">
+                    <td th:text="${iteration.count}"></td>
+                    <td><a th:text="${poli.nama}" th:href="@{poli/view/{idPoli}(idPoli=${poli.id})}"></a></td>
+                    <td th:text="${poli.lokasi}"></td>
+                    <td>
+                        <a th:href="@{#}" class="btn btn-sm btn-dark">Ubah</a>
+                        <form th:action="@{poli/delete/{id}(id=${poli.id})}" method="post">
+                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                        </form>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <a style="float: right" th:href="@{poli/tambah}" class="btn btn-sm btn-dark mr-5">Tambah Poli</a>
+            </div>
+            
+        </div>
+    </div>
+
+    <object th:replace="fragment :: footer"></object>
+</body>

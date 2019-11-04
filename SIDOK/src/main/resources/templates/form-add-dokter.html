@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <object th:replace="fragment :: header"></object>
+    <object th:include="fragment :: css" th:remove="tag"></object>
+    <object th:include="fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+    <nav th:replace="fragment :: navbar"></nav>
+    <div class="container-fluid">
+        <h3 class="text-center" style="margin-top:20px">Tambah Dokter</h3>
+        <form th:action="@{/dokter/tambah}" th:object="${dokter}" method="POST">
+            <!-- <input type="hidden" th:field="*{id}"></input> -->
+
+            <div class="container-fluid" style="max-width: 800px;">
+                <div class="form-group">
+                    <label for="nama">Nama</label>
+                    <input type="text" class="form-control" th:field="*{nama}" placeholder="Masukkan nama dokter" />
+                </div>
+                <div class="form-group">
+                    <label for="nip">NIP</label>
+                    <input type="text" class="form-control" th:field="*{nip}" placeholder="Masukkan nip dokter" />
+                </div>
+                <div class="form-group">
+                    <label for="tanggalLahir">Tanggal Lahir</label>
+                    <input type="date" class="form-control" th:field="*{tanggalLahir}"
+                        placeholder="Masukkan tanggal lahir" />
+                </div>
+
+                <div class="form-group">
+                    <label for="tempatLahir">Tempat Lahir</label>
+                    <input type="text" class="form-control" th:field="*{tempatLahir}"
+                        placeholder="Masukkan tempat lahir" />
+                </div>
+
+                <div class="form-group">
+                    <label for="jenisKelamin">Jenis Kelamin</label>
+                    <select class="form-control" th:field="*{jenisKelamin}">
+                        <option th:value="1" th:text="'Laki - Laki'"></option>
+                        <option th:value="2" th:text="Perempuan"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="spesialisasi">Spesialisasi</label>
+                    <th:block th:each="quantity, stat: *{listSpesialisasi}" >
+                        <select class="form-control" th:field="${dokter.listSpesialisasi[__${stat.index}__].spesialisasiModel}">
+                            <option th:value="${null}" th:text="${'-'}"></option>
+                            <option th:each="spes : ${namaSpesialisasi}" th:value="${spes.id}" th:text="${spes.nama}"></option>
+                        </select>
+                        <input type="hidden" th:field="*{listSpesialisasi[__${stat.index}__].dokterModel}" th:value="${dokter}">
+                        <input type="hidden" th:field="*{listSpesialisasi[__${stat.index}__].id}">
+                    </th:block>
+
+
+                        <button type="submit" name="addRow" class="btn btn-danger btn-sm">Tambah Spesialisasi</button>
+                        <button th:unless="*{listSpesialisasi.size() == 1}" type="submit" name="removeRow"
+                            class="btn btn-danger btn-sm">Hapus Spesialisasi</button>
+                </div>
+                <button class="btn btn-primary" type="submit" name="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+    <object th:replace="fragment :: footer"></object>
+</body>
