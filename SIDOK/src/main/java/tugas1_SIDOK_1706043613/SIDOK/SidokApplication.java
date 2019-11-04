@@ -1,4 +1,4 @@
-package tugas1_SIDOK_1706043613.SIDOK;
+package tugas1_sidok_1706043613.sidok;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
